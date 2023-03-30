@@ -116,7 +116,7 @@ void MainWndWidgets(HWND hWnd)
 		WS_VISIBLE | WS_CHILD | WS_BORDER | ES_NUMBER, 
 		PortStaticWidth+20, 10, 
 		37, PortStaticHeight, 
-		hWnd, (HMENU)PortIndex, NULL, NULL);
+		hWnd, (HMENU)200, NULL, NULL);
     IpWnd = CreateWindow("edit", "192.168.00.00", // text field for ip
 		WS_VISIBLE | WS_CHILD | WS_BORDER, 
 		IPStaticWidth*2, PortStaticHeight*2+10, 
@@ -137,11 +137,13 @@ void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd) // rewrite this using Get
 		SetWindowText(ListenBtn, "Start Listen");
 
 		// get port from edit box
-		TCHAR port[5];
-		GetWindowText(portWnd, port, sizeof(port));
+		port = GetDlgItemInt(hWnd, PortIndex, FALSE, FALSE);
+
+		// get ip from edit box
+		GetWindowText(ipWnd, ip, sizeof(ip));
 
 		Server server;
-		server.listen_on_port(4444, "192.168.31.135");
+		server.listen_on_port(port, ip);
 	} else {
 		SetWindowText(ListenBtn, "Stop Listen");
 	}

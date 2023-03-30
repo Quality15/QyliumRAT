@@ -20,7 +20,7 @@ void Server::listen_on_port(short port, char *ip)
     addr.sin_family = AF_INET;
 
     SOCKET sListen = socket(AF_INET, SOCK_STREAM, 0);
-    printf("Waiting for new connection...\n");
+    printf("Waiting for new connection on %s with port %i...\n", ip, port);
     bind(sListen, (SOCKADDR*)&addr, sizeof(addr));
     listen(sListen, SOMAXCONN);
 

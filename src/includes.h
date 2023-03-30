@@ -28,6 +28,8 @@ void MainWndMenus(HWND hWnd);
 void MainWndWidgets(HWND hWnd);
 
 bool isListening;
+short port;
+TCHAR ip[1024];
 
 HWND PortWnd;
 HWND IpWnd;
