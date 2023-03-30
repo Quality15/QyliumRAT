@@ -13,12 +13,12 @@ SOURCE_DIR = src
 # output
 OUTPUT_DIR = build
 
-all: client	server
+all: window client
 
 client: client
 	$(CC) -O2 $(SOURCE_DIR)/client.cpp -o $(OUTPUT_DIR)/client.exe $(CFLAGS)
-server: server
-	$(CC) -O2 $(SOURCE_DIR)/server.cpp -o $(OUTPUT_DIR)/server.exe $(CFLAGS)
+window: window
+	$(CC) -O2 $(SOURCE_DIR)/window.cpp $(SOURCE_DIR)/server.cpp -o $(OUTPUT_DIR)/Qylium.exe $(CFLAGS)
 
 clean:
 	rm $(OUTPUT_DIR)/client.exe $(OUTPUT_DIR)/server.exe

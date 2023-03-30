@@ -2,9 +2,9 @@
 // NOGUI
 // this code will listen on port and wait for targets connection
 
-#include "includes.h"
+#include "server.h"
 
-int main() 
+void Server::listen_on_port(short port, char *ip)
 {
     WSADATA wsaData;
     WORD DllVersion = MAKEWORD(2, 1);
@@ -15,8 +15,8 @@ int main()
 
     SOCKADDR_IN addr;
     int sizeAddr = sizeof(addr);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    addr.sin_port = htons(4444);
+    addr.sin_addr.s_addr = inet_addr(ip);
+    addr.sin_port = htons(port);
     addr.sin_family = AF_INET;
 
     SOCKET sListen = socket(AF_INET, SOCK_STREAM, 0);
@@ -32,7 +32,4 @@ int main()
     } else {
         printf("Successfully connected!\n");
     }
-
-    system("PAUSE");
-    return 0;
 }
