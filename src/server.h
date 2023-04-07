@@ -10,9 +10,18 @@
 #include <iostream>
 #include <tchar.h>
 
+#define BUFF_SIZE   1000
+
 class Server
 {
 public:
+    SOCKET newConnection;
+    SOCKET sListen;
+    SOCKADDR_IN addr;
+    WSADATA wsaData;
+    WORD DllVersion;
+
     void listen_on_port(short port, char *ip);
-    void close_connecion();
+    int close_connecion();
+    void get_target_name();
 };

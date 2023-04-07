@@ -24,6 +24,8 @@
 #define PortIndex               200
 #define IPIndex                 300
 
+#define DEFAULT_IP  "192.168.31.135"
+
 void MainWndMenus(HWND hWnd);
 void MainWndWidgets(HWND hWnd);
 

@@ -117,7 +117,7 @@ void MainWndWidgets(HWND hWnd)
 		PortStaticWidth+20, 10, 
 		37, PortStaticHeight, 
 		hWnd, (HMENU)200, NULL, NULL);
-    IpWnd = CreateWindow("edit", "192.168.00.00", // text field for ip
+    IpWnd = CreateWindow("edit", DEFAULT_IP, // text field for ip
 		WS_VISIBLE | WS_CHILD | WS_BORDER, 
 		IPStaticWidth*2, PortStaticHeight*2+10, 
 		110, PortStaticHeight, 
@@ -144,6 +144,7 @@ void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd) // rewrite this using Get
 
 		Server server;
 		server.listen_on_port(port, ip);
+		server.get_target_name();
 	} else {
 		SetWindowText(ListenBtn, "Stop Listen");
 	}
