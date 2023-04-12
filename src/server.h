@@ -22,6 +22,8 @@ public:
     WORD DllVersion;
 
     void listen_on_port(short port, char *ip);
+    char* recv_data();
+    char* send_data();
     int close_connecion();
     void get_target_name();
 };

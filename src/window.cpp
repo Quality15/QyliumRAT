@@ -134,7 +134,7 @@ void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd) // rewrite this using Get
 {
 	// change button label
 	if (!isListening) {
-		SetWindowText(ListenBtn, "Start Listen");
+		SetWindowText(ListenBtn, "Stop Listen");
 
 		// get port from edit box
 		port = GetDlgItemInt(hWnd, PortIndex, FALSE, FALSE);
@@ -142,11 +142,15 @@ void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd) // rewrite this using Get
 		// get ip from edit box
 		GetWindowText(ipWnd, ip, sizeof(ip));
 
+		printf("IP: %s\nPort: %i\n", ip, port);
+
 		Server server;
-		server.listen_on_port(port, ip);
-		server.get_target_name();
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)&server.listen_on_port, NULL, NULL, NULL);
+		// server.get_target_name();
+
+		isListening = true;
 	} else {
-		SetWindowText(ListenBtn, "Stop Listen");
+		SetWindowText(ListenBtn, "Start Listen");
+		isListening = false;
 	}
-	isListening = !isListening;
 }
