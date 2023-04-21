@@ -30,8 +30,8 @@ void MainWndMenus(HWND hWnd);
 void MainWndWidgets(HWND hWnd);
 
 bool isListening;
-short port;
-TCHAR ip[1024];
+// short port;
+// TCHAR ip[1024];
 
 HWND PortWnd;
 HWND IpWnd;
@@ -39,3 +39,5 @@ HWND ListenBtn;
 HWND StatusLabel;
 
 void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd);
+int get_port(HWND hWnd);
+PSTR get_ip(HWND hWnd);

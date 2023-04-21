@@ -1,6 +1,10 @@
 // window.cpp
 // main file that will makes GUI window
 
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
 #include "server.h"
 #include "includes.h"
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -130,22 +134,39 @@ void MainWndWidgets(HWND hWnd)
 		hWnd, (HMENU)OnButtonListenClicked, NULL, NULL);
 }
 
+int get_port(HWND hWnd)
+{
+	// get port from edit box
+	short port = GetDlgItemInt(hWnd, PortIndex, FALSE, FALSE);
+
+	return port;
+}
+
+PSTR get_ip() 
+{
+	// get length of edit box
+	int cTxtLen = GetWindowTextLength(IpWnd);
+	PSTR pszMem = (PSTR)VirtualAlloc((LPVOID)NULL, (DWORD)(cTxtLen + 1), MEM_COMMIT, PAGE_READWRITE);
+
+	// get ip from edit box
+	GetWindowText(IpWnd, pszMem, cTxtLen + 1);
+
+	return pszMem;
+}
+
 void start_listen(HWND hWnd, HWND portWnd, HWND ipWnd) // rewrite this using GetDlgItemInt
 {
 	// change button label
 	if (!isListening) {
 		SetWindowText(ListenBtn, "Stop Listen");
 
-		// get port from edit box
-		port = GetDlgItemInt(hWnd, PortIndex, FALSE, FALSE);
-
-		// get ip from edit box
-		GetWindowText(ipWnd, ip, sizeof(ip));
-
-		printf("IP: %s\nPort: %i\n", ip, port);
+		PSTR ip = get_ip();
+		short port = get_port(hWnd);
 
 		Server server;
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)&server.listen_on_port, NULL, NULL, NULL);
+		// server.start_thread(port, ip);
+		server.start_thread(4444, "192.168.31.135");
+		
 		// server.get_target_name();
 
 		isListening = true;

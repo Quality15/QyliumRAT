@@ -12,6 +12,7 @@
 
 #define BUFF_SIZE   1000
 
+struct ThreadAgrs;
 class Server
 {
 public:
@@ -21,9 +22,13 @@ public:
     WSADATA wsaData;
     WORD DllVersion;
 
-    void listen_on_port(short port, char *ip);
+    void listen_on_port(LPVOID lpParam);
+    void start_thread(short port_arg, PSTR ip_arg);
+    
     char* recv_data();
     char* send_data();
+    
     int close_connecion();
+    
     void get_target_name();
 };
